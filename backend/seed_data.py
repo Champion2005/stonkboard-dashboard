@@ -7,6 +7,8 @@ from sqlalchemy.orm import sessionmaker
 
 from models import Base, StockMention
 
+from sqlalchemy import text
+
 DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql+asyncpg://user:password@localhost/stonkboard")
 
 engine = create_async_engine(DATABASE_URL, echo=False)
@@ -20,7 +22,7 @@ async def seed():
 
     async with AsyncSessionLocal() as session:
         # Check if already seeded
-        result = await session.execute("SELECT COUNT(*) FROM stock_mentions")
+        result = await session.execute(text("SELECT COUNT(*) FROM stock_mentions"))
         count = result.scalar()
         if count > 0:
             print("Database already seeded")
