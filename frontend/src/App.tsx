@@ -75,8 +75,8 @@ export default function App() {
       if (priceTier) params.append('price_tier', priceTier);
       if (minPerfDelta !== '') params.append('min_perf_delta', minPerfDelta.toString());
 
-      // In development, we use relative URL assuming proxy, but wait, let's use direct URL for now or relative if served together
-      const response = await axios.get(`/api/dashboard`, { params });
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const response = await axios.get(`${baseUrl}/api/dashboard`, { params });
       setData(response.data);
       setLastRefreshed(new Date());
     } catch (error) {
